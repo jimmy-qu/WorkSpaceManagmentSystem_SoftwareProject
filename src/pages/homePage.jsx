@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import  {getCurrentUser,checkIfLoggedIn,logoutUser}  from '../firebaseFunction/auth'
-import {CaseRow} from '../components/Case'
-import {cases} from '../cases/List'
-import {Clock} from '../components/clock'
-import { DivideIcon } from '@heroicons/react/24/outline';
+
+import { readCasesRecord } from '../firebaseFunction/cloudDatabase';
+
+
 
 function App() {
 
   const navigate = useNavigate();
   //Check if user is logged in, if not, redirect to login page
+
   useEffect(() => {
     if (!checkIfLoggedIn()) {
       navigate("/login");
+    } else {
+      console.log("User is logged in:", getCurrentUser());
+      // Optionally, you can fetch some data here
+      console.log(readCasesRecord());
     }
   }, []);
 
