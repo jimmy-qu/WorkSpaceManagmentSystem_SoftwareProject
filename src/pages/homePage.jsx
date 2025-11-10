@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
 import { useNavigate } from "react-router-dom";
 import  {getCurrentUser,checkIfLoggedIn,logoutUser}  from '../firebaseFunction/auth'
-
-
+import {CaseRow} from '../components/Case'
+import {cases} from '../cases/List'
+import {Clock} from '../components/clock'
+import { DivideIcon } from '@heroicons/react/24/outline';
 
 function App() {
 
@@ -22,6 +21,20 @@ function App() {
       <h1>Home Page</h1>
       <p>Welcome, {getCurrentUser() ? getCurrentUser().email : 'Guest'}!</p>
       
+      <div class="flex item-center justify-start mb-4">
+        <button 
+        type="submit"
+        class="mr-4 px-10 py-2 bg-red-600 text-white rounded hover:bg-green-700"
+        onClick={() => {
+          color === 'red' ? setColor('green') : setColor('red');
+        }}
+          >
+          Clock in
+        </button>
+        
+        <p class="text-gray-800 px-3 py-2 text-sm font-medium">Current Time:</p>
+          <Clock />
+      </div>
 
     <div class="overflow-x-auto w-[90%] max-w-5xl">
     <table class="min-w-full border border-gray-500 text-sm text-gray-800">
@@ -36,55 +49,19 @@ function App() {
           <th class="px-4 py-2 border-b border-gray-400">Note:</th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-300">
-        <tr class="bg-gray-100">
-          <td class="px-4 py-2">Alan</td>
-          <td class="px-4 py-2">11/9/2025</td>
-          <td class="px-4 py-2">In Progress</td>
-          <td class="px-4 py-2">Received</td>
-          <td class="px-4 py-2">Jianping</td>
-          <td class="px-4 py-2">$20.00</td>
-          <td class="px-4 py-2">
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">AP</button>
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">BK</button>
-          </td>
-        </tr>
-        <tr class="bg-white">
-          <td class="px-4 py-2">Alan</td>
-          <td class="px-4 py-2">11/9/2025</td>
-          <td class="px-4 py-2">In Progress</td>
-          <td class="px-4 py-2">Received</td>
-          <td class="px-4 py-2">Jianping</td>
-          <td class="px-4 py-2">$20.00</td>
-          <td class="px-4 py-2">
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">AP</button>
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">BK</button>
-          </td>
-        </tr>
-        <tr class="bg-gray-100">
-          <td class="px-4 py-2">Alan</td>
-          <td class="px-4 py-2">11/9/2025</td>
-          <td class="px-4 py-2">In Progress</td>
-          <td class="px-4 py-2">Received</td>
-          <td class="px-4 py-2">Jianping</td>
-          <td class="px-4 py-2">$20.00</td>
-          <td class="px-4 py-2">
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">AP</button>
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">BK</button>
-          </td>
-        </tr>
-        <tr class="bg-white">
-          <td class="px-4 py-2">Alan</td>
-          <td class="px-4 py-2">11/9/2025</td>
-          <td class="px-4 py-2">In Progress</td>
-          <td class="px-4 py-2">Received</td>
-          <td class="px-4 py-2">Jianping</td>
-          <td class="px-4 py-2">$20.00</td>
-          <td class="px-4 py-2">
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">AP</button>
-            <button class="bg-orange-300 text-gray-800 rounded-full px-3 py-1 mx-1 text-sm font-semibold">BK</button>
-          </td>
-        </tr>
+      <tbody className ="devide-y divide-gray-300">
+        {cases.map((caseItem, index) => (
+          <CaseRow
+            key={index}
+            name={caseItem.name}
+            startDate={caseItem.startDate}
+            status={caseItem.status}
+            payment={caseItem.payment}
+            employee={caseItem.employee}
+            fee={caseItem.fee}
+            notes={caseItem.notes}
+          />
+        ))}
       </tbody>
     </table>
   </div>
